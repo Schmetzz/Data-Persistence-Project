@@ -21,7 +21,6 @@ public class PlayerData : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log(playerName);
     }
     [System.Serializable]
     class SaveData
@@ -37,6 +36,12 @@ public class PlayerData : MonoBehaviour
         data.score = score;
         data.highScore = highScore; 
         data.playerName = playerName;
+
+        //Checks if there is a new highscore by comparing the score earned and then setting it to whichever is highest.
+        if (data.score >= highScore)
+        {
+            score = highScore;
+        }
 
         string json = JsonUtility.ToJson(data);
 

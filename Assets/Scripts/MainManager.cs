@@ -12,6 +12,12 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+
+    //Text for passing saved data on to the screen.
+    public Text ScoreText1;
+    //***************
+
+    
     
     private bool m_Started = false;
     private int m_Points;
@@ -22,7 +28,9 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData.Instance.LoadPlayerData();
+        //I added this
+        ScoreText1.text = "Best Score: " + PlayerData.Instance.highScore + " Name: " + PlayerData.Instance.playerName;
+        //**********
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -58,20 +66,26 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                PlayerData.Instance.SavePlayerData();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
 
-    void AddPoint(int point)
+    public void AddPoint(int point)
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        
     }
 
     public void GameOver()
     {
+        //START HERE NEXT TIME!! This is where you need to save the current games score in to the JSON using the m_Points variable, somehow...
+        //I added this
+        PlayerData.Instance.score = m_Points;
+        PlayerData.Instance.SavePlayerData();
+        //************************
+
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
