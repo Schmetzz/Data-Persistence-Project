@@ -9,11 +9,19 @@ public class PlayerData : MonoBehaviour
 
     //Information that needs to persist between scenes
     public string playerName;
+    public string highScoreName;
     public int score;
+
+    //Information that needs to persist between application runs.
     public int highScore;
+    public MainManager mainManager;
 
     private void Awake()
     {
+        if (score >= highScore)
+        {
+            score = highScore;
+        }
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -25,7 +33,7 @@ public class PlayerData : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
-        public string playerName;
+        public string highScoreName;
         public int score;
         public int highScore;
     }
@@ -34,15 +42,8 @@ public class PlayerData : MonoBehaviour
     {
         SaveData data = new SaveData();
         data.score = score;
-        data.highScore = highScore; 
-        data.playerName = playerName;
-
-        //Checks if there is a new highscore by comparing the score earned and then setting it to whichever is highest.
-        if (data.score >= highScore)
-        {
-            score = highScore;
-        }
-
+        data.highScoreName = highScoreName;
+        data.highScore = highScore;
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
@@ -56,10 +57,9 @@ public class PlayerData : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
-
-            score = data.score;
             highScore = data.highScore;
-            playerName = data.playerName;
+            score = data.score;
+            highScoreName = data.highScoreName;
         }
     }
 }

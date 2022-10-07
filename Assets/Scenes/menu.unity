@@ -420,6 +420,7 @@ MonoBehaviour:
   playerName: 
   score: 0
   highScore: 0
+  mainManager: {fileID: 4450919069331925060, guid: 1e434ea3776b36d46926099f66fdeed5, type: 3}
 --- !u!4 &428784567
 Transform:
   m_ObjectHideFlags: 0

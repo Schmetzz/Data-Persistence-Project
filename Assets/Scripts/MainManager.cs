@@ -13,8 +13,10 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public GameObject GameOverText;
 
-    //Text for passing saved data on to the screen.
+    //Text for passing saved data on to the screen and for accessing specific variables.
     public Text ScoreText1;
+    public int currentScore;
+    public Text currentName;
     //***************
 
     
@@ -29,7 +31,8 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         //I added this
-        ScoreText1.text = "Best Score: " + PlayerData.Instance.highScore + " Name: " + PlayerData.Instance.playerName;
+        ScoreText1.text = "Best Score: " + PlayerData.Instance.highScore + " By: " + PlayerData.Instance.highScoreName;
+        currentName.text = "Name: " + PlayerData.Instance.playerName;
         //**********
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -75,14 +78,20 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
-        
+        currentScore = m_Points;
     }
 
     public void GameOver()
     {
-        //START HERE NEXT TIME!! This is where you need to save the current games score in to the JSON using the m_Points variable, somehow...
         //I added this
-        PlayerData.Instance.score = m_Points;
+        Debug.Log("Here is the score that was saved: " + currentScore);
+        PlayerData.Instance.LoadPlayerData();
+        PlayerData.Instance.score = currentScore;
+        if(PlayerData.Instance.score >= PlayerData.Instance.highScore)
+        {
+            PlayerData.Instance.highScore = PlayerData.Instance.score;
+            PlayerData.Instance.highScoreName = PlayerData.Instance.playerName;
+        }
         PlayerData.Instance.SavePlayerData();
         //************************
 

@@ -21,6 +21,5 @@ public class MenuUIHandler : MonoBehaviour
     {
         enterName = inputField.GetComponent<Text>().text;
         PlayerData.Instance.playerName = enterName;
-        PlayerData.Instance.SavePlayerData();
     }
 }
